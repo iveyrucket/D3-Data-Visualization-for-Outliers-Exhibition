@@ -1,0 +1,138 @@
+{
+  "nodes": [
+    {
+      "id": 1,
+      "name": "Howard Finster",
+      "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed sodales sem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi vulputate sed lorem a condimentum. Nullam vulputate risus elit, sed finibus risus iaculis non. Maecenas hendrerit dapibus lectus, vehicula pellentesque magna tempor at. Praesent convallis sapien ante, at commodo enim lacinia vel. Sed quis nisl ut libero posuere ullamcorper ultricies eget tortor. Aliquam tristique auctor mi.",
+      "location": "South",
+      "image": "images/finster.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Nellie Mae Rowe",
+            "bio": "Morbi sed sodales sem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi vulputate sed lorem a condimentum. Nullam vulputate risus elit, sed finibus risus iaculis non. Maecenas hendrerit dapibus lectus, vehicula pellentesque magna tempor at. Praesent convallis sapien ante, at commodo enim lacinia vel. Sed quis nisl ut libero posuere ullamcorper ultricies eget tortor. Aliquam tristique auctor mi, at convallis ligula rutrum nec.",
+      "location": "South",
+      "image": "images/rowe.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Ronald Lockett",
+            "bio": "Aliquam tristique auctor mi, at convallis ligula rutrum nec. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.<br><br>Nulla sit amet laoreet nunc, a pellentesque lectus. Etiam vitae erat nec est euismod lobortis id et sapien. Cras lobortis velit non aliquam imperdiet. Nulla porta velit et lorem blandit, ac laoreet urna sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla a metus est. Mauris consequat, odio vitae maximus dignissim, mauris lacus eleifend tortor, ac rutrum nulla enim sit amet urna. In hac habitasse platea dictumst. Sed condimentum finibus ex non sodales.",
+      "location": "South",
+      "image": "images/lockett.jpg"
+    },
+    {
+      "id": 4,
+      "name": "Annie Mae Young, Gee's Bend",
+            "bio": "Mauris lacus eleifend tortor, ac rutrum nulla enim sit amet urna. In hac habitasse platea dictumst. Sed condimentum finibus ex non sodales.",
+      "location": "South",
+      "image": "images/quilt.jpg"
+    },
+    {
+      "id": 5,
+      "name": "Sulton Rogers",
+            "bio": "Consectetur adipiscing elit. Morbi sed sodales sem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi vulputate sed lorem a condimentum. Nullam vulputate risus elit, sed finibus risus iaculis non. Maecenas hendrerit dapibus lectus, vehicula pellentesque magna tempor at. Praesent convallis sapien ante, at commodo enim lacinia vel. Sed quis nisl ut libero posuere ullamcorper ultricies eget tortor. Aliquam tristique auctor mi, at convallis ligula rutrum nec.",
+      "location": "North",
+      "image": "images/rogers.jpg"
+    },
+    {
+      "id": 6,
+      "name": "Bill Traylor",
+      "bio": "Morbi sed sodales sem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. ",
+      "location": "Mid-West",
+      "image": "images/traylor.jpg"
+    },
+    {
+      "id": 7,
+      "name": "Thornton Dial",
+      "bio": "Nullam vulputate risus elit, sed finibus risus iaculis non. Maecenas hendrerit dapibus lectus, vehicula pellentesque magna tempor at. Praesent convallis sapien ante, at commodo enim lacinia vel. Sed quis nisl ut libero posuere ullamcorper ultricies eget tortor.",
+      "location": "North",
+      "image": "images/dial.jpg"
+    },
+    {
+      "id": 8,
+      "name": "Ivy Billiot",
+      "bio": "Aliquam tristique auctor mi, at convallis ligula rutrum nec. Praesent convallis sapien ante, at commodo enim lacinia vel. ",
+      "location": "North",
+      "image": "images/billiot.jpg"
+    },
+    {
+      "id": 9,
+      "name": "Minnie Evans",
+      "bio": "Consectetur adipiscing elit. Morbi sed sodales sem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi vulputate sed lorem a condimentum. ",
+      "location": "Mid-West",
+      "image": "images/evans.jpg"
+    },
+    {
+      "id": 10,
+      "name": "Ulysses Davis",
+      "bio": "Cras lobortis velit non aliquam imperdiet. Nulla porta velit et lorem blandit, ac laoreet urna sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
+      "location": "North",
+      "image": "images/davis.jpg"
+    }
+  ],
+  "links": [
+
+    {
+      "source_id": 1,
+      "target_id": 3,
+      "connection": "Family"
+    },
+    {
+      "source_id": 1,
+      "target_id": 3,
+      "connection": "Family"
+    },
+    {
+      "source_id": 1,
+      "target_id": 6,
+      "connection": "Contemporary"
+    },
+
+    {
+      "source_id": 2,
+      "target_id": 3,
+      "connection": "Geography"
+    },
+            {
+      "source_id": 2,
+      "target_id": 7,
+      "connection": "Family"
+    }
+    ,
+
+    {
+      "source_id": 3,
+      "target_id": 4,
+      "connection": "Inspired By"
+    },
+     {
+      "source_id": 8,
+      "target_id": 3,
+      "connection": "Contemporary"
+    }
+    ,
+    {
+      "source_id": 4,
+      "target_id": 5,
+      "connection": "Geography"
+    }
+    ,
+
+    {
+      "source_id": 4,
+      "target_id": 9,
+      "connection": "Inspired By"
+    },
+    {
+      "source_id": 4,
+      "target_id": 10,
+      "connection": "Geography"
+    },
+    {
+      "source_id": 7,
+      "target_id": 8,
+      "connection": "Geography"
+    }
+  ]
+}

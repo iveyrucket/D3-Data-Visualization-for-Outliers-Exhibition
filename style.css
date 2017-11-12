@@ -1,0 +1,94 @@
+body{
+  background-color:#251B17;
+}
+text{
+  fill:#FFF;
+}
+
+.Family{
+  stroke:#C2085D;
+}
+.Geography{
+  stroke:#E65144;
+}
+.Contemporary{
+  stroke:#FD9025;
+}
+.Inspired{
+  stroke:#FFBF00;
+  stroke-dasharray:5, 5;
+}
+
+.North{
+  fill:#48A4FF;
+}
+.Mid-West{
+  fill: #006487;
+}
+.South{
+  fill:#438D00;
+}
+.hidden{
+  display:none !important;
+}
+
+/*.arrow:after {
+  content: "";
+   position: absolute;
+   width: 0;
+   height: 0;
+   border-top: 10px solid transparent;
+   border-bottom: 10px solid transparent;
+   border-right:10px solid #FFF;
+   top: 11px;
+   left: -10px;
+   z-index:10;
+}*/
+
+.tooltip{
+  width:400px;
+  height:auto;
+  display:block;
+  position:absolute;
+  padding:20px;
+  border:3px solid #666;
+  background:white;
+  opacity:.9;
+  border-radius:10px;
+  visibility:hidden;
+}
+
+.tooltip:after, .tooltip:before {
+	right: 100%;
+	top: 25px;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.tooltip:after {
+	border-color: rgba(136, 183, 213, 0);
+	border-right-color: #fff;
+	border-width: 10px;
+	margin-top: -10px;
+}
+.tooltip:before {
+	border-color: rgba(194, 225, 245, 0);
+	border-right-color: #666;
+	border-width: 14px;
+	margin-top: -14px;
+}
+
+
+img{
+float:right;
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  margin-left:10px;
+  margin-bottom:10px;
+  margin-top:20px;
+}

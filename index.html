@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+    body {font-family: 'opensans', sans-serif;}
+</style>
+
+<svg width="960" height="600"></svg>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.11.0/d3.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+  crossorigin="anonymous"></script>
+<link href="style.css" rel="stylesheet">
+<script>
+
+var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height");
+
+// KEY COLOR SWATCHES
+    d3.select("svg")
+    .append("line")
+    .classed("Family", "true")
+    .style("stroke-width", 3)
+    .attr("x1", "20px")
+    .attr("y1", height - 20 +"px")
+    .attr("x2", "45px")
+    .attr("y2", height - 20 +"px")
+
+
+    d3.select("svg")
+    .append("line")
+    .classed("Geography", "true")
+    .style("stroke-width", 3)
+    .attr("x1", "20px")
+    .attr("y1", height - 60 +"px")
+    .attr("x2", "45px")
+    .attr("y2", height - 60 +"px")
+
+    d3.select("svg")
+    .append("line")
+    .classed("Contemporary", "true")
+    .style("stroke-width", 3)
+    .attr("x1", "20px")
+    .attr("y1", height - 100 +"px")
+    .attr("x2", "45px")
+    .attr("y2", height - 100 +"px")
+
+    d3.select("svg")
+      .append("line")
+      .classed("Inspired", "true")
+      .style("stroke-width", 3)
+      .attr("x1", "20px")
+      .attr("y1", height - 140 +"px")
+      .attr("x2", "50px")
+      .attr("y2", height - 140 +"px")
+
+
+// KEY LABELS
+    d3.select("svg")
+      .append("text")
+      .attr("x", "60px")
+      .attr("y", height - 135 +"px")
+      .html("Inspired By")
+
+    d3.select("svg")
+      .append("text")
+      .attr("x", "60px")
+      .attr("y", height - 95 +"px")
+      .html("Contemporary Of")
+
+    d3.select("svg")
+      .append("text")
+      .attr("x", "60px")
+      .attr("y", height - 55 +"px")
+      .html("Exhibited With")
+
+    d3.select("svg")
+      .append("text")
+      .attr("x", "60px")
+      .attr("y", height - 15 +"px")
+      .html("Family")
+
+var simulation = d3.forceSimulation()
+    .force("link", d3.forceLink().id(function(d) { return d.id; }))
+    .force("charge", d3.forceManyBody().strength(-1000))
+    .force("center", d3.forceCenter(width / 2, height / 2));
+
+  d3.json("data.json", function(error, graph) {
+      if (error) throw error;
+
+      graph.links.forEach(function(d){
+        d.source = d.source_id;
+        d.target = d.target_id;
+      });
+
+
+    simulation
+        .nodes(graph.nodes)
+        .on("tick", ticked);
+
+
+    simulation.force("link")
+        .links(graph.links);
+
+
+var tooltip = d3.select('body')
+                .append('div')
+                .classed('tooltip', 'true')
+                .classed('arrow', 'true')
+                .append('b')
+
+              d3.select('div')
+                .append('span')
+
+
+var tooltipB = d3.select('body div b');
+var tooltipSpan = d3.select('body div span')
+                    .style('display', 'block')
+                    .style('padding-top', '10px');
+
+
+//var tooltipImage = d3.select('body img');
+
+
+
+  var link = svg.append("g")
+                .style("stroke", '#aaa')
+                .style("stroke-width", "3px")
+                .selectAll("line")
+                .data(graph.links)
+                .enter().append("line")
+                .attr("class", function (d) { return d.connection; })
+              //  .on("mouseover", linkClick);
+
+
+  var node = svg.append("g")
+            .attr("class", "nodes")
+            .selectAll("circle")
+            .data(graph.nodes)
+            .enter().append("circle")
+            .attr("class", function (d) { return d.location; })
+            //.style("fill", "#d9d9d9")
+            //.style("stroke", "#969696")
+              .style("stroke-width", "3px")
+              .style("stroke", "#FFF")
+
+            //.on("mouseout", handleMouseOut)
+            //.attr("r", 20)
+            .attr("r", function(d) {
+            d.weight = link.filter(function(l) {
+              return l.source.index == d.index || l.target.index == d.index
+             }).size();
+             console.log('d.weight: ' +d.weight);
+              var minRadius = 15;
+              return minRadius + (d.weight * 3);
+             })
+
+            .on("click", mouseClick)
+            .on("mouseover", function(d){
+              d3.select(this).transition()
+                             .duration(300)
+                             .attr("r", function(d) {
+                             d.weight = link.filter(function(l) {
+                               return l.source.index == d.index || l.target.index == d.index
+                              }).size();
+                               var minRadius = 15;
+                               return minRadius + (d.weight * 6);
+                              })
+              })
+            .on("mouseout", function(d){
+               d3.select(this).transition()
+                               .duration(300)
+                               .attr("r", function(d) {
+                               d.weight = link.filter(function(l) {
+                                 return l.source.index == d.index || l.target.index == d.index
+                                }).size();
+                                 var minRadius = 15;
+                                 return minRadius + (d.weight * 3);
+                                })
+              })
+             .call(d3.drag()
+             .on("start", dragstarted)
+             .on("drag", dragged)
+             .on("end", dragended));
+
+
+function mouseClick(d){
+         d3.select('.tooltip')
+           .style('visibility', 'visible')
+           .style('left', (d3.event.pageX +15) + 'px')
+           .style('top', (d3.event.pageY -30) + 'px')
+            tooltipB.html(d.name)
+                    .insert('img', ':first-child')
+                    .attr("src", d.image)
+            tooltipSpan.html(d.bio)
+
+
+         link.style('stroke-width', function(l) {
+        				    if (d === l.source || d === l.target)
+        				    return 6;
+        				  else
+        				    return 1;
+                  })
+
+}
+
+
+
+
+
+  function ticked() {
+    link
+        //.attr("x1", function(d) { return d.source.x; })
+        .attr("x1", function(d) { return d.source.x;})
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    node
+         .attr("cx", function (d) { return d.x+6; })
+         .attr("cy", function(d) { return d.y-6; })
+
+  }
+});
+
+$(document).click(function (e)
+{
+    var container = $(".tooltip");
+    var circle = $('circle');
+
+    if (!container.is(e.target) // if the target of the click isn't the container...
+        && container.has(e.target).length === 0 && !circle.is(e.target)) // ... nor a descendant of the container
+    {
+        container.addClass('hidden');
+    }
+    if(circle.is(e.target)){
+      container.removeClass('hidden');
+    }
+});
+
+
+ function dragstarted(d) {
+  if (!d3.event.active) simulation.alphaTarget(2.3).restart()
+  d.fx = null;
+  d.fy = null;
+
+}
+
+function dragged(d) {
+//  simulation.fix(d, d3.event.x, d3.event.y);
+}
+
+function dragended(d) {
+  if (!d3.event.active) simulation.alphaTarget(0);
+  d.fx = null;
+  d.fy = null;
+}
+
+
+</script>
