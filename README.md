@@ -6,7 +6,8 @@ This is a simple Force Direction Graph using [D3.js](https://d3js.org/)
 
 * Node size depends on number of links
 * Nodes swell on mouseover
-* Styled tooltips open on click
+* Styled tooltip opens on click
+* Links are highlighted when a node is clicked
 
 ## Demo
 
