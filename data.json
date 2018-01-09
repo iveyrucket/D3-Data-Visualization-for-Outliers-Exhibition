@@ -74,65 +74,65 @@
   "links": [
 
     {
-      "source_id": 1,
-      "target_id": 3,
-      "connection": "Family"
-    },
-    {
-      "source_id": 1,
-      "target_id": 3,
-      "connection": "Family"
-    },
-    {
-      "source_id": 1,
-      "target_id": 6,
-      "connection": "Contemporary"
-    },
-
-    {
-      "source_id": 2,
-      "target_id": 3,
-      "connection": "Geography"
-    },
-            {
-      "source_id": 2,
-      "target_id": 7,
-      "connection": "Family"
-    }
-    ,
-
-    {
-      "source_id": 3,
-      "target_id": 4,
-      "connection": "Inspired By"
-    },
+       "source_id": 1,
+       "target_id": 3,
+       "connection": "Family"
+     },
      {
-      "source_id": 8,
-      "target_id": 3,
-      "connection": "Contemporary"
-    }
-    ,
-    {
-      "source_id": 4,
-      "target_id": 5,
-      "connection": "Geography"
-    }
-    ,
+       "source_id": 1,
+       "target_id": 3,
+       "connection": "Family"
+     },
+     {
+       "source_id": 1,
+       "target_id": 6,
+       "connection": "Contemporary"
+     },
 
-    {
-      "source_id": 4,
-      "target_id": 9,
-      "connection": "Inspired By"
-    },
-    {
-      "source_id": 4,
-      "target_id": 10,
-      "connection": "Geography"
-    },
-    {
-      "source_id": 7,
-      "target_id": 8,
-      "connection": "Geography"
-    }
+     {
+       "source_id": 2,
+       "target_id": 3,
+       "connection": "Geography"
+     },
+             {
+       "source_id": 2,
+       "target_id": 7,
+       "connection": "Family"
+     }
+     ,
+
+     {
+       "source_id": 3,
+       "target_id": 4,
+       "connection": "Inspired By"
+     },
+      {
+       "source_id": 8,
+       "target_id": 3,
+       "connection": "Contemporary"
+     }
+     ,
+     {
+       "source_id": 4,
+       "target_id": 5,
+       "connection": "Geography"
+     }
+     ,
+
+     {
+       "source_id": 4,
+       "target_id": 9,
+       "connection": "Inspired By"
+     },
+     {
+       "source_id": 4,
+       "target_id": 10,
+       "connection": "Geography"
+     },
+     {
+       "source_id": 7,
+       "target_id": 8,
+       "connection": "Geography"
+     }
   ]
 }

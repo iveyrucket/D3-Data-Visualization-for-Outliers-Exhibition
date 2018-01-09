@@ -3,10 +3,36 @@
 <style>
     body {font-family: 'opensans', sans-serif;}
 </style>
+<div class="toggles">
+<div class="toggle"><span class="toggle_label">WPA:</span> <input checked type="checkbox" id="wpa" /><label for="wpa">Toggle</label></div>
+<div class="toggle"><span class="toggle_label">Whitney:</span> <input checked type="checkbox" id="whitney" /><label for="whitney">Toggle</label></div>
+<div class="toggle"><span class="toggle_label">Women:</span><input checked type="checkbox" id="women" /><label for="women">Toggle</label></div>
+<div class="toggle"><span class="toggle_label">Untrained:</span><input checked type="checkbox" id="untrained" /><label for="untrained">Toggle</label></div>
+<div class="toggle"><span class="toggle_label">Southerners:</span><input checked type="checkbox" id="southerners" /><label for="southerners">Toggle</label></div>
+<div class="toggle"><span class="toggle_label">Influencers:</span><input checked type="checkbox" id="influencers" /><label for="influencers">Toggle</label></div>
+<!-- <div class="buttons">
+  <button data-zoom="+1">Zoom In</button>
+  <button data-zoom="-1">Zoom Out</button>
+</div> -->
+</div>
+<svg class="viz" width="720" height="660"></svg>
 
-<svg width="960" height="600"></svg>
+<div class="key">
+  <div class="swatch Textiles">Textiles</div>
+  <div class="swatch Paintings">Paintings</div>
+  <div class="swatch Sculpture">Sculpture</div>
+  <div class="swatch Wood">Wood</div>
+  <div class="swatch Photographs">Photographs</div>
+  <div class="swatch Drawings">Drawings</div>
+  <div class="swatch Assemblages">Assemblages</div>
+  <div class="swatch Stone">Stone</div>
+  <div class="swatch Media">Media</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.11.0/d3.js"></script>
+</div>
+
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.11.0/d3.js"></script> -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
 <script
   src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
   integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
@@ -14,86 +40,77 @@
 <link href="style.css" rel="stylesheet">
 <script>
 
+var xScale = d3.scaleLinear()
+    .domain([250,640])
+    .range([0,660])
+
+var yScale = d3.scaleLinear()
+    .domain([250,639])
+    .range([0,660])
+
+var xAxis = d3.axisTop(xScale)
+              .tickSize(5);
+
+var yAxis = d3.axisLeft(yScale)
+              .tickSize(5);
+
+
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
-// KEY COLOR SWATCHES
-    d3.select("svg")
-    .append("line")
-    .classed("Family", "true")
-    .style("stroke-width", 3)
-    .attr("x1", "20px")
-    .attr("y1", height - 20 +"px")
-    .attr("x2", "45px")
-    .attr("y2", height - 20 +"px")
+var k = 60 / (xScale(372) - xScale(350))
+var tx = 350 - k * xScale(350)
+var t = d3.zoomIdentity.translate(tx, 0).scale(k)
+
+var c = 60 / (yScale(372) - yScale(350))
+var mx = 350 - c * yScale(350)
+var s = d3.zoomIdentity.translate(mx, 0).scale(c)
+
+var xNewScale = t.rescaleX(xScale)
+var yNewScale = s.rescaleY(yScale)
 
 
-    d3.select("svg")
-    .append("line")
-    .classed("Geography", "true")
-    .style("stroke-width", 3)
-    .attr("x1", "20px")
-    .attr("y1", height - 60 +"px")
-    .attr("x2", "45px")
-    .attr("y2", height - 60 +"px")
+var xAxis = d3.axisTop()
+              .scale(xNewScale)
+              .ticks(3)
 
-    d3.select("svg")
-    .append("line")
-    .classed("Contemporary", "true")
-    .style("stroke-width", 3)
-    .attr("x1", "20px")
-    .attr("y1", height - 100 +"px")
-    .attr("x2", "45px")
-    .attr("y2", height - 100 +"px")
+var yAxis = d3.axisLeft()
+              .scale(yNewScale)
+              .ticks(3)
 
-    d3.select("svg")
-      .append("line")
-      .classed("Inspired", "true")
-      .style("stroke-width", 3)
-      .attr("x1", "20px")
-      .attr("y1", height - 140 +"px")
-      .attr("x2", "50px")
-      .attr("y2", height - 140 +"px")
+svg.append('g')
+   .attr('transform', 'translate('+ 60 +',' + 60 + ')')
+   .classed('x axis', true)
+   .call(xAxis);
+
+svg.append('g')
+   .attr('transform', 'translate(' + 60 + ','+ 60+')')
+   .classed('y axis', true)
+   .call(yAxis);
 
 
-// KEY LABELS
-    d3.select("svg")
-      .append("text")
-      .attr("x", "60px")
-      .attr("y", height - 135 +"px")
-      .html("Inspired By")
-
-    d3.select("svg")
-      .append("text")
-      .attr("x", "60px")
-      .attr("y", height - 95 +"px")
-      .html("Contemporary Of")
-
-    d3.select("svg")
-      .append("text")
-      .attr("x", "60px")
-      .attr("y", height - 55 +"px")
-      .html("Exhibited With")
-
-    d3.select("svg")
-      .append("text")
-      .attr("x", "60px")
-      .attr("y", height - 15 +"px")
-      .html("Family")
 
 var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function(d) { return d.id; }))
-    .force("charge", d3.forceManyBody().strength(-1000))
+    .force("charge", d3.forceManyBody().strength(-10).distanceMax(80).distanceMin(40))
     .force("center", d3.forceCenter(width / 2, height / 2));
 
-  d3.json("data.json", function(error, graph) {
+var linkedNodes = [];
+  d3.json("data-new.json", function(error, graph) {
       if (error) throw error;
+
 
       graph.links.forEach(function(d){
         d.source = d.source_id;
         d.target = d.target_id;
+
+        linkedNodes.push(d.source_id);
+        linkedNodes.push(d.target_id);
       });
+        console.log(linkedNodes);
+
+
 
 
     simulation
@@ -116,7 +133,7 @@ var tooltip = d3.select('body')
 
 
 var tooltipB = d3.select('body div b');
-var tooltipSpan = d3.select('body div span')
+var tooltipSpan = d3.select('body div span.modal')
                     .style('display', 'block')
                     .style('padding-top', '10px');
 
@@ -131,7 +148,7 @@ var tooltipSpan = d3.select('body div span')
                 .selectAll("line")
                 .data(graph.links)
                 .enter().append("line")
-                .attr("class", function (d) { return d.connection; })
+              //  .attr("class", function (d) { return d.connection; })
               //  .on("mouseover", linkClick);
 
 
@@ -140,7 +157,35 @@ var tooltipSpan = d3.select('body div span')
             .selectAll("circle")
             .data(graph.nodes)
             .enter().append("circle")
-            .attr("class", function (d) { return d.location; })
+            .attr("id", function (d) { return d.id })
+            .attr("class", function (d) {
+              var classes = [d.Classification];
+              if( d.Untrained == 1) {
+                classes.push(" untrained");
+               }
+              if( d.Female == 1){
+                classes.push(" female");
+               }
+             if( d.AfricanAmerican == 1){
+                classes.push(" afam");
+               }
+             if( d.PeopleOfColor == 1){
+                classes.push(" poc");
+               }
+             if( d.Southern == 1){
+                 classes.push(" southern");
+               }
+             if( d.Disabilty == 1){
+                 classes.push(" disabilty");
+               }
+             if( d.WPA == 1){
+                 classes.push(" wpa");
+               }
+             if( d.Whitney == 1){
+                 classes.push(" whitney");
+                }
+              return classes.join(" ");
+            })
             //.style("fill", "#d9d9d9")
             //.style("stroke", "#969696")
               .style("stroke-width", "3px")
@@ -153,7 +198,8 @@ var tooltipSpan = d3.select('body div span')
               return l.source.index == d.index || l.target.index == d.index
              }).size();
              console.log('d.weight: ' +d.weight);
-              var minRadius = 15;
+              var minRadius = 9;
+              var maxRadius = 27;
               return minRadius + (d.weight * 3);
              })
 
@@ -176,7 +222,7 @@ var tooltipSpan = d3.select('body div span')
                                d.weight = link.filter(function(l) {
                                  return l.source.index == d.index || l.target.index == d.index
                                 }).size();
-                                 var minRadius = 15;
+                                 var minRadius = 9;
                                  return minRadius + (d.weight * 3);
                                 })
               })
@@ -184,6 +230,68 @@ var tooltipSpan = d3.select('body div span')
              .on("start", dragstarted)
              .on("drag", dragged)
              .on("end", dragended));
+
+//    svg.append("rect")
+//        .attr("width", width)
+//        .attr("height", height)
+//        .style("fill", "none")
+//        .style("pointer-events", "visiblePainted")
+//        .call(d3.zoom()
+//        .scaleExtent([1 / 2, 4])
+//        .on("zoom", zoomed));
+//
+//
+// function zoomed() {
+//     g.attr("transform", d3.event.transform);
+//         console.log("I am being triggered");
+//        }
+//
+
+
+//ZOOM BUTTONS:
+// var zoom = d3.zoom().scaleExtent([1 / 2, 4]).on('zoom', zoomed);
+// var xScale = d3.scaleLinear()
+//     .domain([0,5000])
+//     .range([100,500])
+
+  //  var k = 10 / (xScale(1020) - xScale(1010))
+  //  var tx = 200 - k * xScale(1010)
+  //  var t = d3.zoomIdentity.translate(tx, 0).scale(k)
+
+
+  var circles = svg.selectAll('circle');
+  var lines = svg.selectAll('line');
+  var zoom = d3.zoom().on('zoom', zoomed);
+
+  function zoomed() {
+      var transform = d3.event.transform;
+
+      // rescale the x linear scale so that we can draw the top axis
+      var xNewScale = transform.rescaleX(xScale);
+       xAxis.scale(xNewScale)
+            .ticks(3)
+       svg.selectAll('g.x').call(xAxis);
+
+      // do the same for the y linear scale
+      var yNewScale = transform.rescaleY(yScale);
+       yAxis.scale(yNewScale)
+            .ticks(3)
+       svg.selectAll('g.y').call(yAxis);
+
+      // draw the circles in their new positions
+      // circles.attr('cx', function(d) { return d.x; });
+      // circles.attr('cy', function(d) { return d.y; });
+      link.attr("x1", function(d) { return transform.applyX(xScale(d.source.x)); })
+          .attr("y1", function(d) { return transform.applyY(yScale(d.source.y)); })
+          .attr("x2", function(d) { return transform.applyX(xScale(d.target.x)); })
+          .attr("y2", function(d) { return transform.applyY(yScale(d.target.y)); });
+
+      circles.attr('cx', function(d) { return transform.applyX(xScale(d.x)); });
+      circles.attr('cy', function(d) { return transform.applyY(yScale(d.y)); });
+
+  }
+
+  svg.call(zoom)
 
 
 function mouseClick(d){
@@ -193,7 +301,7 @@ function mouseClick(d){
            .style('top', (d3.event.pageY -30) + 'px')
             tooltipB.html(d.name)
                     .insert('img', ':first-child')
-                    .attr("src", d.image)
+                    .attr("src", d.Image)
             tooltipSpan.html(d.bio)
 
 
@@ -212,17 +320,27 @@ function mouseClick(d){
 
   function ticked() {
     link
-        //.attr("x1", function(d) { return d.source.x; })
-        .attr("x1", function(d) { return d.source.x;})
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
+        // .attr("x1", function(d) { return d.source.x;})
+        // .attr("y1", function(d) { return d.source.y; })
+        // .attr("x2", function(d) { return d.target.x; })
+        // .attr("y2", function(d) { return d.target.y; })
+        .attr("x1", function(d) { return t.applyX(xScale(d.source.x)); })
+        .attr("y1", function(d) { return s.applyY(yScale(d.source.y)); })
+        .attr("x2", function(d) { return t.applyX(xScale(d.target.x)); })
+        .attr("y2", function(d) { return s.applyY(yScale(d.target.y)); });
 
     node
-         .attr("cx", function (d) { return d.x+6; })
-         .attr("cy", function(d) { return d.y-6; })
+        //  .attr("cx", function (d) { return d.x+6; })
+        //  .attr("cy", function(d) { return d.y-6; })
+        .attr('cx', function(d) { return t.applyX(xScale(d.x)); })
+        .attr('cy', function(d) { return s.applyY(yScale(d.y)); });
 
   }
+
+
+
+
+
 });
 
 $(document).click(function (e)
@@ -238,25 +356,97 @@ $(document).click(function (e)
     if(circle.is(e.target)){
       container.removeClass('hidden');
     }
+
 });
 
 
  function dragstarted(d) {
-  if (!d3.event.active) simulation.alphaTarget(2.3).restart()
-  d.fx = null;
-  d.fy = null;
+  // if (!d3.event.active) simulation.alphaTarget(2.3).restart()
+  // d.fx = null;
+  // d.fy = null;
 
 }
 
 function dragged(d) {
-//  simulation.fix(d, d3.event.x, d3.event.y);
+  //simulation.fix(d, d3.event.x, d3.event.y);
 }
 
 function dragended(d) {
-  if (!d3.event.active) simulation.alphaTarget(0);
-  d.fx = null;
-  d.fy = null;
+  // if (!d3.event.active) simulation.alphaTarget(0);
+  // d.fx = null;
+  // d.fy = null;
 }
+
+
+$(document).ready(function(){
+$("#wpa").click(function(){
+           if($(this).prop("checked") == true){
+               $('.wpa').removeClass('hidden');
+           }
+           else if($(this).prop("checked") == false){
+                $('.wpa').addClass('hidden');
+           }
+       });
+
+$("#women").click(function (){
+  if($(this).prop("checked") == true){
+      $('.female').removeClass('hidden');
+  }
+  else if($(this).prop("checked") == false){
+       $('.female').addClass('hidden');
+  }
+       });
+
+$("#whitney").click(function (){
+     if($(this).prop("checked") == true){
+             $('.whitney').removeClass('hidden');
+         }
+         else if($(this).prop("checked") == false){
+              $('.whitney').addClass('hidden');
+         }
+      });
+
+$("#southerners").click(function (){
+  if($(this).prop("checked") == true){
+      $('.southern').removeClass('hidden');
+          }
+     else if($(this).prop("checked") == false){
+       $('.southern').addClass('hidden');
+          }
+     });
+
+ $("#untrained").click(function (){
+   if($(this).prop("checked") == true){
+      $('.untrained').removeClass('hidden');
+         }
+    else if($(this).prop("checked") == false){
+            $('.untrained').addClass('hidden');
+       }
+  });
+
+  $("#influencers").click(function (){
+    if($(this).prop("checked") == true){
+        $('.connected').removeClass('hidden');
+        $('line').removeClass('hidden');
+            }
+       else if($(this).prop("checked") == false){
+         $('.connected').addClass('hidden');
+         $('line').addClass('hidden');
+            }
+       });
+
+
+     });
+
+
+
+$( document ).ready(function() {
+ $.each(linkedNodes, function( index, value ) {
+    if($("circle").is("#"+value)){
+      $("#"+value).addClass("connected");
+    }
+  });
+});
 
 
 </script>

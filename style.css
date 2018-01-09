@@ -19,17 +19,80 @@ text{
   stroke-dasharray:5, 5;
 }
 
-.North{
+.Textiles{
   fill:#48A4FF;
 }
-.Mid-West{
+.Paintings{
   fill: #006487;
 }
-.South{
+.Sculpture{
   fill:#438D00;
 }
-.hidden{
-  display:none !important;
+.Wood{
+  fill:#B20000;
+}
+.Photographs{
+  fill:#FF8000;
+}
+.Drawings{
+  fill:#FFDC73;
+}
+.Assemblages{
+  fill:#A3D900;
+}
+.Stone{
+  fill:#FFBFFF;
+}
+.Media{
+  fill:#C5A442;
+}
+.key{
+  margin-top:40px;
+  float:right;
+  width:200px;
+}
+
+.key > .swatch{
+  color:#fff;
+  display:block;
+  height:50px;
+}
+.key > .swatch:before{
+  content:" ";
+  width:20px;
+  height: 20px;
+  border-radius:50%;
+  border:2px solid #FFF;
+  float:left;
+  margin: 0 15px;
+}
+
+.Textiles:before{
+  background-color:#48A4FF;
+}
+.Paintings:before{
+  background-color:#006487;
+}
+.Sculpture:before{
+  background-color:#438D00;
+}
+.Wood:before{
+  background-color:#B20000;
+}
+.Photographs:before{
+  background-color:#FF8000;
+}
+.Drawings:before{
+  background-color:#FFDC73;
+}
+.Assemblages:before{
+  background-color:#A3D900;
+}
+.Media:before{
+  background-color:#C5A442;
+}
+.Stone:before{
+    background-color:#FFBFFF;
 }
 
 /*.arrow:after {
@@ -82,13 +145,88 @@ text{
 	margin-top: -14px;
 }
 
+.hidden{
+  display:none;
+}
 
 img{
-float:right;
+  float:right;
   width:100px;
   height:100px;
   border-radius:50%;
   margin-left:10px;
   margin-bottom:10px;
   margin-top:20px;
+  border:3px solid #666;
+}
+
+
+/* Toggle Switch */
+div.toggles{
+  float:left;
+  width:200px;
+  margin-top:40px;
+}
+div.viz{
+  float:left;
+}
+div.toggle{
+  display:block;
+  height: 60px;
+  width: 200px;
+}
+div.toggle span.toggle_label{
+  float:left;
+  color:#FFF;
+  margin-right:20px;
+}
+input[type=checkbox]{
+	height: 0;
+	width: 0;
+	visibility: hidden;
+}
+
+label {
+  float:right;
+	cursor: pointer;
+	text-indent: -9999px;
+	width: 70px;
+	height: 30px;
+	background: grey;
+	display: block;
+	border-radius: 30px;
+	position: relative;
+}
+
+label:after {
+	content: '';
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	width: 20px;
+	height: 20px;
+	background: #fff;
+	border-radius: 20px;
+	transition: 0.3s;
+}
+
+input:checked + label {
+	background: #bada55;
+}
+
+input:checked + label:after {
+	left: calc(100% - 5px);
+	transform: translateX(-100%);
+}
+
+label:active:after {
+	width: 60px;
+}
+
+// centering
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
 }
