@@ -1,4 +1,4 @@
-# D3 Force Direction Graph
+# D3 Data Visualization
 
 This is a simple Force Direction Graph using [D3.js](https://d3js.org/)
 
